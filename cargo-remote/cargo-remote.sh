@@ -19,11 +19,10 @@ if [ "$1" = "--help" ] || [ "$1" = "-h" ] || [ -z "$1" ]; then
 fi
 
 CONTAINER="rust-tmp-$(basename "$PWD")"
-IMAGE="rust:latest"
+IMAGE="dbrgn/cargo-audit:latest"
 WORKDIR="/workspace"
 
-CARGO_REGISTRY_VOL="cargo-registry-cache"
-CARGO_GIT_VOL="cargo-git-cache"
+CARGO_CACHE="cargo-cache"
 
 # Guarantee cleanup even if you hit Ctrl+C or the script crashes
 trap 'docker rm -f "$CONTAINER" >/dev/null 2>&1' EXIT
@@ -31,8 +30,7 @@ trap 'docker rm -f "$CONTAINER" >/dev/null 2>&1' EXIT
 # Create the container using explicit --mount syntax
 docker create \
   --name "$CONTAINER" \
-  --mount type=volume,source="$CARGO_REGISTRY_VOL",target="/usr/local/cargo/registry" \
-  --mount type=volume,source="$CARGO_GIT_VOL",target="/usr/local/cargo/git" \
+  --mount type=volume,source="$CARGO_CACHE",target="/usr/local/cargo" \
   --workdir "$WORKDIR" \
   "$IMAGE" \
   sleep infinity >/dev/null
