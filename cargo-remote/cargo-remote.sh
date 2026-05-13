@@ -42,4 +42,4 @@ docker exec "$CONTAINER" mkdir -p "$WORKDIR"
 docker cp "." "$CONTAINER:$WORKDIR/"
 
 # Execute the command
-docker exec -it --workdir "$WORKDIR" "$CONTAINER" cargo "$@"
+docker exec --env CARGO_TARGET_DIR=/usr/local/cargo/build-target -it --workdir "$WORKDIR" "$CONTAINER" cargo "$@"
