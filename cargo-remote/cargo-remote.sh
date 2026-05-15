@@ -32,6 +32,9 @@ docker create \
   --name "$CONTAINER" \
   --mount type=volume,source="$CARGO_CACHE",target="/usr/local/cargo" \
   --workdir "$WORKDIR" \
+  --memory-reservation "512m" \
+  --memory "1g" \
+  --memory-swap "2g" \
   "$IMAGE" \
   sleep infinity >/dev/null
 

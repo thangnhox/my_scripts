@@ -71,6 +71,9 @@ trap cleanup EXIT
 docker create \
   --name "$CONTAINER" \
   --mount type=volume,source="$NPM_CACHE_VOL",target="/root/.npm" \
+  --memory-reservation "256m" \
+  --memory "512m" \
+  --memory-swap "1g" \
   --workdir "$WORKDIR" \
   "$IMAGE" \
   sleep infinity >/dev/null
